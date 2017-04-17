@@ -1,0 +1,32 @@
+ #include "SevSeg.h"
+SevSeg sevseg;
+void setup() {
+   Serial.begin(9600);
+   Serial.println("17 04050484 04050290");
+  byte numDigits = 4;
+  byte digitPins[] = {13, 12, 11, 10};
+  byte segmentPins[] = {2, 3, 4, 5, 6, 7, 8, 9};
+  sevseg.begin(COMMON_CATHODE, numDigits, digitPins,segmentPins);
+  
+}
+void loop() {
+      int val;
+  if(Serial.available())
+  {    
+    val = Serial.parseInt();  
+    if(val>=0 && val<10000)
+    {
+      Serial.println(val);
+       sevseg.setNumber(val, 0);
+    }
+    else
+    {
+       Serial.println("range error");
+    }
+     
+  }
+  else
+  {
+      sevseg.refreshDisplay();
+  }
+}
